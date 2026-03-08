@@ -1,2 +1,2 @@
-# Hospital-management-System
-This is For Hospital Management System Project - IIT BSC
+# Placement-management-System
+This is For the Placement Management System Project - IIT BSC
