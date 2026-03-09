@@ -1,0 +1,344 @@
+openapi: 3.0.3
+info:
+title: Campus Connect
+description: API documentation for Campus Connect built using Flask
+version: 1.0.0
+
+servers:
+  - url: http://localhost:5000
+
+paths:
+
+/:
+get:
+summary: Home page statistics
+description: Returns statistics for companies, drives, and placed students.
+responses:
+"200":
+description: Home page rendered successfully
+
+/register:
+get:
+summary: Get registration page
+responses:
+"200":
+description: Registration page
+post:
+summary: Register a new user
+requestBody:
+required: true
+content:
+application/json:
+schema:
+$ref: '#/components/schemas/RegisterUser'
+responses:
+"201":
+description: User registered successfully
+
+/login:
+get:
+summary: Get login page
+responses:
+"200":
+description: Login page
+post:
+summary: Login user
+requestBody:
+required: true
+content:
+application/json:
+schema:
+$ref: '#/components/schemas/LoginUser'
+responses:
+"200":
+description: Login successful
+"401":
+description: Invalid credentials
+
+/logout:
+get:
+summary: Logout current user
+responses:
+"200":
+description: User logged out
+
+/company_dashboard:
+get:
+summary: View company dashboard
+security:
+- sessionAuth: []
+responses:
+"200":
+description: Company dashboard
+
+/company/create_drive:
+get:
+summary: Get create drive page
+security:
+- sessionAuth: []
+responses:
+"200":
+description: Create drive form
+
+```
+post:
+  summary: Create placement drive
+  security:
+    - sessionAuth: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/CreateDrive'
+  responses:
+    "201":
+      description: Drive created successfully
+```
+
+/company/drive/{drive_id}:
+get:
+summary: View applications for a drive
+security:
+- sessionAuth: []
+parameters:
+- name: drive_id
+in: path
+required: true
+schema:
+type: integer
+responses:
+"200":
+description: List of applications
+
+/company/drive/{drive_id}/close:
+get:
+summary: Close a placement drive
+security:
+- sessionAuth: []
+parameters:
+- name: drive_id
+in: path
+required: true
+schema:
+type: integer
+responses:
+"200":
+description: Drive closed
+
+/company/application/{app_id}/status/{status}:
+get:
+summary: Update application status
+security:
+- sessionAuth: []
+parameters:
+- name: app_id
+in: path
+required: true
+schema:
+type: integer
+- name: status
+in: path
+required: true
+schema:
+type: string
+enum: [Applied, Shortlisted, Selected, Rejected]
+responses:
+"200":
+description: Application status updated
+
+/student_dashboard:
+get:
+summary: View student dashboard
+security:
+- sessionAuth: []
+responses:
+"200":
+description: Student dashboard
+
+/student/delete_resume:
+post:
+summary: Delete student resume
+security:
+- sessionAuth: []
+responses:
+"200":
+description: Resume deleted
+
+/student/edit_profile:
+get:
+summary: Get edit profile page
+security:
+- sessionAuth: []
+responses:
+"200":
+description: Edit profile page
+
+```
+post:
+  summary: Update student profile
+  security:
+    - sessionAuth: []
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/UpdateStudentProfile'
+  responses:
+    "200":
+      description: Profile updated
+```
+
+/student/apply/{drive_id}:
+get:
+summary: Apply to placement drive
+security:
+- sessionAuth: []
+parameters:
+- name: drive_id
+in: path
+required: true
+schema:
+type: integer
+responses:
+"200":
+description: Application submitted
+
+/admin_dashboard:
+get:
+summary: View admin dashboard
+security:
+- sessionAuth: []
+responses:
+"200":
+description: Admin dashboard
+
+/admin/approve_company/{company_id}:
+get:
+summary: Approve company registration
+security:
+- sessionAuth: []
+parameters:
+- name: company_id
+in: path
+required: true
+schema:
+type: integer
+responses:
+"200":
+description: Company approved
+
+/admin/reject_company/{company_id}:
+get:
+summary: Reject company registration
+security:
+- sessionAuth: []
+parameters:
+- name: company_id
+in: path
+required: true
+schema:
+type: integer
+responses:
+"200":
+description: Company rejected
+
+/admin/approve_drive/{drive_id}:
+get:
+summary: Approve placement drive
+security:
+- sessionAuth: []
+parameters:
+- name: drive_id
+in: path
+required: true
+schema:
+type: integer
+responses:
+"200":
+description: Drive approved
+
+/admin/reject_drive/{drive_id}:
+get:
+summary: Reject placement drive
+security:
+- sessionAuth: []
+parameters:
+- name: drive_id
+in: path
+required: true
+schema:
+type: integer
+responses:
+"200":
+description: Drive rejected
+
+/admin/toggle_user/{user_id}:
+get:
+summary: Activate or deactivate user
+security:
+- sessionAuth: []
+parameters:
+- name: user_id
+in: path
+required: true
+schema:
+type: integer
+responses:
+"200":
+description: User status updated
+
+components:
+securitySchemes:
+sessionAuth:
+type: apiKey
+in: cookie
+name: session
+
+schemas:
+
+```
+RegisterUser:
+  type: object
+  properties:
+    username:
+      type: string
+    email:
+      type: string
+    password:
+      type: string
+    role:
+      type: string
+      enum: [Admin, Company, Student]
+
+LoginUser:
+  type: object
+  properties:
+    email:
+      type: string
+    password:
+      type: string
+
+CreateDrive:
+  type: object
+  properties:
+    title:
+      type: string
+    description:
+      type: string
+    eligibility:
+      type: string
+    deadline:
+      type: string
+      format: date-time
+
+UpdateStudentProfile:
+  type: object
+  properties:
+    username:
+      type: string
+    email:
+      type: string
+    student_name:
+      type: string
+```
