@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center mt-4 mb-5">
+    <div class="col-md-8 col-lg-6">
+        <div class="card card-shadow border-0">
+            <div class="card-body p-5">
+                <h3 class="text-center mb-4 fw-bold">Create an Account</h3>
+                <form method="POST" action="" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+
+                    <div class="mb-3">
+                        {{ form.role.label(class="form-label fw-bold") }}
+                        {% if form.role.errors %}
+                        {{ form.role(class="form-select is-invalid", id="roleSelect") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.role.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        {{ form.role(class="form-select form-select-lg mb-3", id="roleSelect") }}
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.username.label(class="form-label") }}
+                        {% if form.username.errors %}
+                        {{ form.username(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.username.errors %}<span>{{ error }}</span>{% endfor %}
+                        </div>
+                        {% else %}
+                        {{ form.username(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.email.label(class="form-label") }}
+                        {% if form.email.errors %}
+                        {{ form.email(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.email.errors %}<span>{{ error }}</span>{% endfor %}
+                        </div>
+                        {% else %}
+                        {{ form.email(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+
+                    <!-- Dynamic Fields based on Role -->
+                    <div class="mb-3" id="studentNameDiv">
+                        {{ form.student_name.label(class="form-label text-primary fw-bold") }}
+                        {% if form.student_name.errors %}
+                        {{ form.student_name(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">{% for error in form.student_name.errors %}<span>{{ error
+                                }}</span>{% endfor %}</div>
+                        {% else %}
+                        {{ form.student_name(class="form-control form-control-lg") }}
+                        {% endif %}
+
+                        <div class="mt-3">
+                            {{ form.resume.label(class="form-label text-primary fw-bold") }}
+                            {% if form.resume.errors %}
+                            {{ form.resume(class="form-control is-invalid") }}
+                            <div class="invalid-feedback">{% for error in form.resume.errors %}<span>{{ error
+                                    }}</span>{% endfor %}</div>
+                            {% else %}
+                            {{ form.resume(class="form-control form-control-lg") }}
+                            {% endif %}
+                            <small class="text-muted d-block mt-1">Accepts PDF, DOC, DOCX.</small>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 d-none" id="companyNameDiv">
+                        {{ form.company_name.label(class="form-label text-primary fw-bold") }}
+                        {% if form.company_name.errors %}
+                        {{ form.company_name(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">{% for error in form.company_name.errors %}<span>{{ error
+                                }}</span>{% endfor %}</div>
+                        {% else %}
+                        {{ form.company_name(class="form-control form-control-lg") }}
+                        {% endif %}
+
+                        <div class="mt-3">
+                            {{ form.hr_contact.label(class="form-label text-primary fw-bold") }}
+                            {% if form.hr_contact.errors %}
+                            {{ form.hr_contact(class="form-control is-invalid") }}
+                            <div class="invalid-feedback">{% for error in form.hr_contact.errors %}<span>{{ error
+                                    }}</span>{% endfor %}</div>
+                            {% else %}
+                            {{ form.hr_contact(class="form-control form-control-lg") }}
+                            {% endif %}
+                        </div>
+
+                        <div class="mt-3">
+                            {{ form.company_website.label(class="form-label text-primary fw-bold") }}
+                            {% if form.company_website.errors %}
+                            {{ form.company_website(class="form-control is-invalid") }}
+                            <div class="invalid-feedback">{% for error in form.company_website.errors %}<span>{{ error
+                                    }}</span>{% endfor %}</div>
+                            {% else %}
+                            {{ form.company_website(class="form-control form-control-lg") }}
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.password.label(class="form-label") }}
+                            {% if form.password.errors %}
+                            {{ form.password(class="form-control is-invalid") }}
+                            <div class="invalid-feedback">{% for error in form.password.errors %}<span>{{ error
+                                    }}</span>{% endfor %}</div>
+                            {% else %}
+                            {{ form.password(class="form-control form-control-lg") }}
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {{ form.confirm_password.label(class="form-label") }}
+                            {% if form.confirm_password.errors %}
+                            {{ form.confirm_password(class="form-control is-invalid") }}
+                            <div class="invalid-feedback">{% for error in form.confirm_password.errors %}<span>{{ error
+                                    }}</span>{% endfor %}</div>
+                            {% else %}
+                            {{ form.confirm_password(class="form-control form-control-lg") }}
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2 mt-4">
+                        {{ form.submit(class="btn btn-primary btn-lg shadow-sm") }}
+                    </div>
+                </form>
+                <div class="mt-4 text-center">
+                    <p class="text-muted">Already have an account? <a href="{{ url_for('login') }}"
+                            class="text-decoration-none fw-bold">Login</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Based on selected role, we will show the fields required for the company, or for the students.
+    document.addEventListener('DOMContentLoaded', function () {
+        const roleSelect = document.getElementById('roleSelect');
+        const studentDiv = document.getElementById('studentNameDiv');
+        const companyDiv = document.getElementById('companyNameDiv');
+
+        function toggleFields() {
+            if (roleSelect.value === 'Student') {
+                studentDiv.classList.remove('d-none');
+                companyDiv.classList.add('d-none');
+            } else if (roleSelect.value === 'Company') {
+                companyDiv.classList.remove('d-none');
+                studentDiv.classList.add('d-none');
+            }
+        }
+
+        roleSelect.addEventListener('change', toggleFields);
+        toggleFields(); // Init on load
+    });
+</script>
+{% endblock %}

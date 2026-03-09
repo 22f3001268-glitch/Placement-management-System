@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h2 class="fw-bold">Admin Dashboard</h2>
+        <p class="text-muted">Manage companies, students, and placement drives.</p>
+    </div>
+</div>
+
+<!-- Key Statistics -->
+<div class="row mb-5">
+    <div class="col-md-3 mt-2">
+        <div class="card text-center shadow-sm border-0 border-start border-primary border-4">
+            <div class="card-body">
+                <i class="fa-solid fa-user-graduate fs-1 text-primary mb-2"></i>
+                <h5 class="card-title text-muted">Total Students</h5>
+                <h2 class="fw-bold">{{ total_students }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mt-2">
+        <div class="card text-center shadow-sm border-0 border-start border-success border-4">
+            <div class="card-body">
+                <i class="fa-solid fa-building fs-1 text-success mb-2"></i>
+                <h5 class="card-title text-muted">Total Companies</h5>
+                <h2 class="fw-bold">{{ total_companies }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mt-2">
+        <div class="card text-center shadow-sm border-0 border-start border-info border-4">
+            <div class="card-body">
+                <i class="fa-solid fa-briefcase fs-1 text-info mb-2"></i>
+                <h5 class="card-title text-muted">Placement Drives</h5>
+                <h2 class="fw-bold">{{ total_drives }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mt-2">
+        <div class="card text-center shadow-sm border-0 border-start border-warning border-4">
+            <div class="card-body">
+                <i class="fa-solid fa-file-signature fs-1 text-warning mb-2"></i>
+                <h5 class="card-title text-muted">Total Applications</h5>
+                <h2 class="fw-bold">{{ total_applications }}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Pending Company Approvals -->
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-header bg-white border-bottom">
+                <h5 class="mb-0 fw-bold"><i class="fa-solid fa-building-flag me-2 text-warning"></i>Pending Company Registrations</h5>
+            </div>
+            <div class="card-body">
+                {% if pending_companies %}
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Name</th>
+                                <th>Contact</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for company in pending_companies %}
+                            <tr>
+                                <td>{{ company.name }}</td>
+                                <td>{{ company.user.email }}</td>
+                                <td>
+                                    <a href="{{ url_for('approve_company', company_id=company.id) }}" class="btn btn-sm btn-success" title="Approve"><i class="fa-solid fa-check"></i></a>
+                                    <a href="{{ url_for('reject_company', company_id=company.id) }}" class="btn btn-sm btn-danger" title="Reject" onclick="return confirm('Are you sure you want to reject this company?');"><i class="fa-solid fa-xmark"></i></a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted text-center my-3 border rounded p-3 bg-light">No pending company registrations.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Pending Drive Approvals -->
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-header bg-white border-bottom">
+                <h5 class="mb-0 fw-bold"><i class="fa-solid fa-calendar-check me-2 text-warning"></i>Pending Placement Drives</h5>
+            </div>
+            <div class="card-body">
+                {% if pending_drives %}
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Job Title</th>
+                                <th>Company</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for drive in pending_drives %}
+                            <tr>
+                                <td>{{ drive.title }}</td>
+                                <td>{{ drive.company.name }}</td>
+                                <td>
+                                    <a href="{{ url_for('approve_drive', drive_id=drive.id) }}" class="btn btn-sm btn-success" title="Approve"><i class="fa-solid fa-check"></i></a>
+                                    <a href="{{ url_for('reject_drive', drive_id=drive.id) }}" class="btn btn-sm btn-danger" title="Reject" onclick="return confirm('Reject and delete this drive?');"><i class="fa-solid fa-xmark"></i></a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted text-center my-3 border rounded p-3 bg-light">No pending placement drives.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- User Management -->
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 fw-bold"><i class="fa-solid fa-users-gear me-2 text-primary"></i>User Management</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Username / Email</th>
+                                <th>Role</th>
+                                <th>Profile Name</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for u in all_users %}
+                            <tr>
+                                <td>{{ u.id }}</td>
+                                <td>{{ u.username }}<br><small class="text-muted">{{ u.email }}</small></td>
+                                <td><span class="badge bg-{{ 'primary' if u.role == 'Student' else 'success' }}">{{ u.role }}</span></td>
+                                <td>
+                                    {% if u.role == 'Student' and u.student_profile %}
+                                        {{ u.student_profile.name }}
+                                    {% elif u.role == 'Company' and u.company_profile %}
+                                        {{ u.company_profile.name }}
+                                    {% else %}
+                                        <span class="text-muted">N/A</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if u.is_active %}
+                                        <span class="badge bg-success">Active</span>
+                                    {% else %}
+                                        <span class="badge bg-danger">Blacklisted</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{{ url_for('toggle_user', user_id=u.id) }}" class="btn btn-sm btn-{{ 'danger' if u.is_active else 'success' }}" onclick="return confirm('Change status for this user?');">
+                                        {{ 'Deactivate' if u.is_active else 'Activate' }}
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

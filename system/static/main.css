@@ -1,0 +1,184 @@
+/* ===============================
+   GLOBAL STYLE
+   =============================== */
+body {
+  background: #f3f8fb;
+  /* Softer hospital-like light blue */
+  color: #2b2b2b;
+  margin-top: 5rem;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #0b4f6c;
+  /* Medical blue */
+  font-weight: 600;
+}
+
+/* ===============================
+   NAVBAR (Top Header)
+   =============================== */
+.bg-steel {
+  background-color: #0b4f6c;
+  /* Hospital dark blue */
+}
+
+.site-header .navbar-nav .nav-link {
+  color: #e3f7ff;
+  /* Soft white-blue */
+  font-size: 1.05rem;
+}
+
+.site-header .navbar-nav .nav-link:hover {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.site-header .navbar-nav .nav-link.active {
+  color: #a8e0ff;
+  font-weight: 600;
+}
+
+/* ===============================
+   CONTENT CARDS
+   =============================== */
+.content-section {
+  background: #ffffff;
+  padding: 16px 22px;
+  border: 1px solid #dce7ee;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* ===============================
+   ARTICLES / DASHBOARD BOXES
+   =============================== */
+.article-title {
+  color: #0b4f6c;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+a.article-title:hover {
+  color: #1089c0;
+  text-decoration: none;
+}
+
+.article-content {
+  white-space: pre-line;
+  line-height: 1.6;
+}
+
+.article-img {
+  height: 70px;
+  width: 70px;
+  margin-right: 16px;
+  border-radius: 50%;
+  border: 2px solid #c7e8f3;
+}
+
+/* metadata like "Posted by", date etc. */
+.article-metadata {
+  padding-bottom: 2px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid #cfdbe3;
+  font-size: 0.9rem;
+  color: #5c6f7c;
+}
+
+.article-metadata a:hover {
+  color: #0b4f6c;
+  text-decoration: none;
+}
+
+.article-svg {
+  width: 26px;
+  height: 26px;
+  vertical-align: middle;
+}
+
+/* ===============================
+   USER PROFILE / ACCOUNT PAGE
+   =============================== */
+.account-img {
+  height: 140px;
+  width: 140px;
+  margin-right: 20px;
+  margin-bottom: 16px;
+  border-radius: 50%;
+  border: 3px solid #b4daed;
+}
+
+.account-heading {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #0b4f6c;
+}
+
+/* ===============================
+   BUTTONS
+   =============================== */
+.btn-primary {
+  background-color: #1089c0 !important;
+  border-color: #1089c0 !important;
+}
+
+.btn-primary:hover {
+  background-color: #0b6d9c !important;
+}
+
+.btn-danger {
+  background-color: #d9534f !important;
+}
+
+.btn-success {
+  background-color: #4bb543 !important;
+}
+
+/* ===============================
+   TABLE STYLING (For Admin/Doctor dashboards)
+   =============================== */
+.table {
+  background: white;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.table th {
+  background: #0b4f6c;
+  color: white;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #e6f4fb;
+}
+
+/* ===============================
+   FORMS
+   =============================== */
+.form-control {
+  border-radius: 5px;
+  border: 1px solid #b7cbd6;
+}
+
+.form-control:focus {
+  border-color: #1089c0;
+  box-shadow: 0 0 4px rgba(16, 137, 192, 0.4);
+}
+
+/* ===============================
+   FOOTER
+   =============================== */
+.footer {
+  background: #0b4f6c;
+  padding: 20px;
+  color: #d9eef7;
+  text-align: center;
+  margin-top: 40px;
+}

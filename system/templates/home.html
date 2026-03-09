@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row align-items-center min-vh-75 mt-5">
+    <div class="col-md-6 mb-4 mb-md-0">
+        <h1 class="display-4 fw-bold text-primary mb-3">Welcome to CampusConnect</h1>
+        <p class="lead text-secondary mb-4">The unified placement portal bridging the gap between top talent and leading
+            companies.</p>
+
+        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+            <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg px-4 me-md-2 shadow-sm">Get Started</a>
+            <a href="{{ url_for('login') }}" class="btn btn-outline-secondary btn-lg px-4">Login</a>
+        </div>
+    </div>
+    <div class="col-md-6 text-center">
+        <!-- Placeholder illustration icon -->
+        <i class="fa-solid fa-users-viewfinder text-primary" style="font-size: 15rem; opacity: 0.8;"></i>
+    </div>
+
+
+    <h2 class="text-center">Placement Statistics</h2>
+    <div class="col-md-6 mt-2">
+        <div class="card text-center shadow-sm border-0 border-start border-success border-4">
+            <div class="card-body">
+                <i class="fa-solid fa-building fs-1 text-success mb-2"></i>
+                <h5 class="card-title text-muted">Total Companies</h5>
+                <h2 class="fw-bold">{{ total_companies }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mt-2">
+        <div class="card text-center shadow-sm border-0 border-start border-info border-4">
+            <div class="card-body">
+                <i class="fa-solid fa-briefcase fs-1 text-info mb-2"></i>
+                <h5 class="card-title text-muted">Placement Drives</h5>
+                <h2 class="fw-bold">{{ total_drives }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mt-2">
+        <div class="card text-center shadow-sm border-0 border-start border-success border-4">
+            <div class="card-body">
+                <i class="fa-solid fa-check-circle fs-1 text-success mb-2"></i>
+                <h5 class="card-title text-muted">Students Placed</h5>
+                <h2 class="fw-bold">{{ total_placed_students }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mt-2">
+        <div class="card text-center shadow-sm border-0 border-start border-info border-4">
+            <div class="card-body">
+                <i class="fa-solid fa-briefcase fs-1 text-info mb-2"></i>
+                <h5 class="card-title text-muted">Placement Percentage</h5>
+                <h2 class="fw-bold">{{ placement_percentage }}%</h2>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
