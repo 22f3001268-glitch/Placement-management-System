@@ -7,6 +7,7 @@ from system.forms import RegistrationForm, LoginForm, DriveForm, UpdateResumeFor
 from system.models import User, Company, Student, Drive, Application
 from flask_login import login_user, current_user, logout_user, login_required
 from utils.decorator import roles_required
+from sqlalchemy import func
 
 def save_resume(form_file):
     random_hex = secrets.token_hex(8)
@@ -20,9 +21,15 @@ def save_resume(form_file):
 def home():
     total_companies = Company.query.count()
     total_drives = Drive.query.count()
-    total_placed_students = Application.query.filter_by(status='Selected').count()
-    placement_percentage = (Application.query.filter_by(status='Selected').count() // Application.query.count()) * 100
-    print(total_placed_students)
+    total_placed_students = db.session.query(func.count(func.distinct(Application.student_id))).filter(Application.status == 'Selected').scalar()
+    
+    total_applications_count = db.session.query(func.count(func.distinct(Application.student_id))).scalar()
+    if total_applications_count > 0:
+        # print(total_applications_count,total_placed_students)
+        placement_percentage = round((total_placed_students / total_applications_count) * 100, 2)
+    else:
+        placement_percentage = 0
+    
     if current_user.is_authenticated:
         if current_user.role == 'Admin':
             return redirect(url_for('admin_dashboard'))

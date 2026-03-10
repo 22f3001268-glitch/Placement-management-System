@@ -31,7 +31,7 @@ class Company(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
     name = db.Column(db.String(120), nullable=False)
-    hr_contact = db.Column(db.String(120))
+    hr_contact = db.Column(db.String(10))
     website = db.Column(db.String(120))
     is_approved = db.Column(db.Boolean, default=False)
     
