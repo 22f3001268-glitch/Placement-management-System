@@ -4,6 +4,8 @@ from flask_wtf.file import FileField, FileAllowed
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from system.models import User
 from flask_login import current_user
+
+
 class RegistrationForm(FlaskForm):
     role = SelectField('Register As', choices=[('Student', 'Student'), ('Company', 'Company')], validators=[DataRequired()])
     username = StringField('Username (Login ID)', validators=[DataRequired(), Length(min=2, max=20)])
