@@ -39,7 +39,7 @@ Campus Connect is a comprehensive Placement Management System portal designed to
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/22f3001268-glitch/Placement-management-System.git
    cd Placement-management-system
    ```
 
